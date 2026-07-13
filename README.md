@@ -13,24 +13,22 @@ El sistema interactúa entre una base de datos relacional (Backend) y una interf
 4. **Diseño Premium:** Interfaz con Modo Oscuro, tipografía institucional, colores representativos, perfiles de usuario dinámicos (ilustraciones SVG) y soporte de animaciones en la experiencia de usuario.
 
 ## 📁 Estructura del Repositorio
-Para mantener el orden profesional exigido, el proyecto se divide en las siguientes carpetas principales:
+Para mantener el orden profesional exigido y facilitar la navegación, todo el contenido interno se encuentra dentro de la carpeta `MedSync`. La estructura general es la siguiente:
 ```text
-MedSync/
-├── Archivos de exportación de la Base de Datos/
-├── Archivos del Informe Corporativo e Informe Técnico/
-├── Archivos fuentes de la aplicación desarrollada/  # (Aplicación Web Node.js)
-├── Archivos fuentes del modelo conceptual/         
-├── Archivos fuentes del modelo lógico/
-├── Archivos fuentes del modelo físico/             
-├── Entrega parcial 1/
-├── Entrega parcial 2/
-├── Scripts de Objetos de Programación/
-├── Scripts de Prueba de Funcionalidades/
-└── Scripts de creación de esquema de Base de Datos/# (Los 3 scripts SQL principales)
+/
+├── README.md
+└── MedSync/
+    ├── Archivos fuentes de la aplicación desarrollada/  # (Aplicación Web Node.js)
+    ├── Archivos fuentes del modelo conceptual/         
+    ├── Archivos fuentes del modelo lógico/
+    ├── Entrega parcial 1/
+    ├── Entrega parcial 2/
+    └── Scripts de creación de esquema de Base de Datos/# (Los 3 scripts SQL principales)
 ```
 
 ## 🛠️ Tecnologías Utilizadas
 * **Backend y Base de Datos:** MySQL / Oracle SQL (Triggers, Procedimientos Almacenados, Vistas y Funciones).
+* **Modelado de Datos:** **PowerDesigner** (utilizado para el diseño y construcción de los modelos conceptual y lógico).
 * **Capa de Servidor (API):** Node.js con Express.js y `mysql2`.
 * **Frontend:** HTML5, CSS3 Vainilla y JavaScript (Fetch API).
 * **Diseño UI/UX:** Paleta de colores 'CERSEU' y tipografía 'Modern Professional' (Google Fonts: Poppins).
@@ -47,29 +45,42 @@ El sistema valida estrictamente las operaciones en la base de datos:
 * **RN-31 / RN-32:** La nota final se calcula ponderada (30/40/30) solo cuando el docente registra las tres notas, determinando automáticamente si aprueba (>= 11) o reprueba.
 * **RN-42 / RN-43:** Las encuestas de evaluación docente son anónimas y de llenado único por alumno matriculado.
 
-## 🚀 Cómo Ejecutar el Proyecto
+## 🚀 Requisitos y Cómo Ejecutar el Proyecto
+
+### Requisitos Previos
+* **Node.js** (v16 o superior)
+* **MySQL Server** y **MySQL Workbench**
+* **Navegador Web Moderno** (Chrome, Firefox, Edge)
+
 ### Paso 1: Levantar la Base de Datos
 1. Abre MySQL Workbench u otro cliente SQL.
-2. Abre y ejecuta los scripts de la carpeta `Scripts de creación de esquema de Base de Datos` estrictamente en este orden:
+2. Ingresa a la carpeta `MedSync/Scripts de creación de esquema de Base de Datos`.
+3. Ejecuta los scripts estrictamente en este orden:
    - `script_creacionDB.sql` (Crea la BD `cerseu_med`)
    - `script_creacionTablasETC.sql` (Crea tablas, vistas, funciones y procedures)
-   - `script_cangaDatos.sql` (Inserta toda la data ficticia)
+   - `script_cangaDatos.sql` (Inserta toda la data inicial y usuarios)
 
 ### Paso 2: Levantar el Servidor Web
-1. Abre una terminal y navega hasta la carpeta:
-   `cd "Archivos fuentes de la aplicación desarrollada/medsync-app"`
+1. Abre una terminal y navega hasta la carpeta de la aplicación:
+   `cd "MedSync/Archivos fuentes de la aplicación desarrollada/medsync-app"`
 2. Instala las dependencias necesarias:
    `npm install`
 3. Ejecuta el servidor:
    `node server.js`
 4. Abre tu navegador y dirígete a `http://localhost:3000`.
 
-### 🔑 Credenciales Oficiales de Prueba (Para Presentación y Pruebas)
-*(Nota: Para facilitar las pruebas interactivas, se ha configurado la clave maestra genérica `123456` para todas las cuentas en modo desarrollo)*
+### 🔑 Credenciales de Prueba
+Para interactuar con el sistema, utilice las siguientes credenciales (se recomienda copiar y pegar la contraseña exacta, la cual está hasheada por motivos de seguridad del proyecto):
 
-- **Portal Coordinador:** User: `coordinator` | Clave: `123456`
-- **Portal Docente:** User: `lbaldeon` | Clave: `123456` *(Docente de Epidemiología)*
-- **Portal Estudiante:** User: `atorres` | Clave: `123456` *(Estudiante modelo para encuestas)*
+- **Portal Coordinador:** 
+  - Usuario: `coordinator` 
+  - Clave: `$2y$10$hashCO`
+- **Portal Docente:** 
+  - Usuario: `lbaldeon` 
+  - Clave: `$2y$10$hashLB`
+- **Portal Estudiante:** 
+  - Usuario: `atorres` 
+  - Clave: `$2y$10$hashAT`
 
 ## 👥 Equipo de Desarrollo
 * Bellodas Ramos, Emily Guisell

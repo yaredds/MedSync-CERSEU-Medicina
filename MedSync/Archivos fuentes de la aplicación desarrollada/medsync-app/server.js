@@ -46,7 +46,7 @@ app.post('/api/login', async (req, res) => {
             // Si bcrypt falla por un hash mal formado, lo ignoramos
         }
 
-        if (!isMatch && password !== user.password_hash && password !== '123456') {
+        if (!isMatch && password !== user.password_hash) {
             return res.status(401).json({ success: false, message: 'Contraseña incorrecta.' });
         }
 
