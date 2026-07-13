@@ -10,7 +10,6 @@ El sistema interactúa entre una base de datos relacional (Backend) y una interf
 1. **Portal del Coordinador:** Creación del catálogo académico, visualización de vacantes libres, gestión de matrículas (validando cruces de horarios y topes de capacidad) y visualización de reportes de desempeño.
 2. **Portal del Docente:** Gestión exclusiva de las secciones asignadas al profesor, toma de asistencia por sesión y registro de notas con cálculo automático del promedio.
 3. **Portal del Estudiante:** Visualización de consolidado de notas (con traducción dinámica de cursos), récord de asistencia y módulo de Encuesta de Satisfacción Docente.
-4. **Diseño Premium:** Interfaz con Modo Oscuro, tipografía institucional, colores representativos, perfiles de usuario dinámicos (ilustraciones SVG) y soporte de animaciones en la experiencia de usuario.
 
 ## 📁 Estructura del Repositorio
 Para mantener el orden profesional exigido y facilitar la navegación, todo el contenido interno se encuentra dentro de la carpeta `MedSync`. La estructura general es la siguiente:
@@ -31,7 +30,6 @@ Para mantener el orden profesional exigido y facilitar la navegación, todo el c
 * **Modelado de Datos:** **PowerDesigner** (utilizado para el diseño y construcción de los modelos conceptual y lógico).
 * **Capa de Servidor (API):** Node.js con Express.js y `mysql2`.
 * **Frontend:** HTML5, CSS3 Vainilla y JavaScript (Fetch API).
-* **Diseño UI/UX:** Paleta de colores 'CERSEU' y tipografía 'Modern Professional' (Google Fonts: Poppins).
 
 ## 🎯 Objetivos del Proyecto
 * **Centralizar** el registro de estudiantes, docentes y la oferta académica de extensión en Medicina.
