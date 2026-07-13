@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedSync - CERSEU Medicina</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="login-body">
+    <div class="login-container">
+        <div class="login-panel">
+            <div class="logo-area">
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px;">
+                    <h1 class="brand-logo">
+                        <span class="brand-title">CERSEU</span>
+                        <span class="brand-subtitle">Medicina UNMSM</span>
+                    </h1>
+                    <img src="logo.svg" alt="Logo de Medicina San Fernando" style="height: 5.5em; width: auto;">
+                </div>
+            </div>
+
+            <form id="loginForm" class="login-form">
+                <h2>Iniciar Sesión</h2>
+                <div class="input-group">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" id="username" placeholder="Usuario" required autocomplete="off">
+                </div>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="password" placeholder="Contraseña" required>
+                </div>
+
+                <div class="error-message" id="errorMessage"></div>
+
+                <button type="submit" class="btn-primary" id="loginBtn">
+                    Ingresar <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </form>
+        </div>
+
+        <div class="hero-panel">
+            <div class="hero-content">
+                <h2>Gestión Académica Integral</h2>
+                <p>Plataforma para el control de extensión universitaria y proyección social (ODS 3).</p>
+
+                <div class="hero-features">
+                    <div class="feature-item">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <span>Catálogos Académicos</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-clipboard-user"></i>
+                        <span>Asistencias y Notas</span>
+                    </div>
+                    <div class="feature-item">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        <span>Reportes e Indicadores</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/custom-alert.js"></script>
+    <script src="js/login.js"></script>
+</body>
+
+</html>

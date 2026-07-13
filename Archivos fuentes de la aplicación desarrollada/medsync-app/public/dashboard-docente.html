@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Docente - MedSync</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .management-area {
+            display: none;
+            margin-top: 2rem;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-area" style="margin-bottom: 1rem;">
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;">
+                    <h1 class="brand-logo">
+                        <span class="brand-title" style="font-size: 1.8rem;">CERSEU</span>
+                        <span class="brand-subtitle" style="font-size: 0.85rem;">Medicina UNMSM</span>
+                    </h1>
+                </div>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="#" id="navSections" class="active"><i
+                            class="fa-solid fa-chalkboard-user"></i>&nbsp;&nbsp;Mis
+                        Secciones</a></li>
+            </ul>
+
+            <a href="#" id="logoutBtn" class="logout-btn">
+                <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
+            </a>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <div>
+                    <h2>Portal Docente</h2>
+                    <p class="subtitle">Gestión de asistencias y calificaciones</p>
+                </div>
+                <div class="user-profile" id="userProfileBtn" style="position: relative; cursor: pointer; display: flex; align-items: center; gap: 10px;">
+                    <span id="userNameDisplay">Docente</span>
+                    <div class="avatar" id="headerAvatar" style="pointer-events: none;">D</div>
+                    <i class="fa-solid fa-chevron-down" style="font-size: 0.8rem; color: #666; pointer-events: none;"></i>
+                    
+                    <!-- Dropdown -->
+                    <div id="profileDropdown" class="profile-dropdown" style="display: none;">
+                        <div class="profile-card-cover">
+                            <h1 class="brand-logo-small">
+                                <span class="brand-title">CERSEU</span>
+                                <span class="brand-subtitle" style="color: transparent; -webkit-text-stroke: 0.5px #6D2177;">MEDICINA</span>
+                            </h1>
+                        </div>
+                        <div class="profile-card-avatar-wrapper">
+                            <img src="" id="dropdownAvatarImg" alt="Avatar">
+                        </div>
+                        <div class="profile-card-info">
+                            <h3 id="dropdownName">Cargando...</h3>
+                            <p id="dropdownEmail">usuario@sistema.com</p>
+                        </div>
+                        <div class="profile-card-action">
+                            <a href="#" id="dropdownLogoutBtn">
+                                <i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar sesión
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Lista de Secciones -->
+            <div class="card" id="sectionsCard">
+                <div class="card-header">
+                    <h3>Secciones Asignadas</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Curso</th>
+                                <th>Sección</th>
+                                <th>Fechas</th>
+                                <th>Estado</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="teacherSectionsBody">
+                            <tr>
+                                <td colspan="5" style="text-align: center;">Cargando secciones...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Área de Gestión (Oculta por defecto) -->
+            <div class="card management-area" id="managementArea">
+                <div class="card-header">
+                    <h3 id="managementTitle">Gestionando: [Sección]</h3>
+                    <button class="btn-secondary" onclick="closeManagement()">Volver</button>
+                </div>
+
+                <div class="tabs"
+                    style="display: flex; gap: 2rem; border-bottom: 1px solid #E2E8F0; margin-bottom: 1.5rem; padding-left: 1rem;">
+                    <div class="tab active" onclick="switchTeacherTab('attendance')" id="tabAttendance"
+                        style="padding-bottom: 0.5rem; cursor: pointer; color: var(--primary); border-bottom: 3px solid var(--primary); font-weight: 600; font-family: 'Poppins', sans-serif;">
+                        Asistencia</div>
+                    <div class="tab" onclick="switchTeacherTab('grades')" id="tabGrades"
+                        style="padding-bottom: 0.5rem; cursor: pointer; color: var(--gray); border-bottom: 3px solid transparent; font-weight: 600; font-family: 'Poppins', sans-serif; transition: all 0.3s;">
+                        Calificación</div>
+                </div>
+
+                <div id="teacherTabContent">
+                    <!-- Asistencia -->
+                    <div id="attendanceSection" style="border: 1px solid #eee; padding: 1rem; border-radius: 8px;">
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; align-items: center;">
+                            <div style="flex: 1;">
+                                <select id="sessionSelect" class="form-control" style="margin-bottom: 0;">
+                                    <option value="">Seleccione Sesión...</option>
+                                </select>
+                            </div>
+                            <div>
+                                <button class="btn-secondary" onclick="markBulkAttendance()"
+                                    style="background:var(--secondary); color:white;">Guardar Asistencia</button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="data-table" style="font-size: 0.85rem;">
+                                <thead>
+                                    <tr>
+                                        <th>DNI/CE</th>
+                                        <th>Apellidos y Nombres</th>
+                                        <th style="text-align: center; width: 40px;" title="Asistió">A</th>
+                                        <th style="text-align: center; width: 40px;" title="Tardanza">T</th>
+                                        <th style="text-align: center; width: 40px;" title="Falta">F</th>
+                                        <th>Intervención</th>
+                                        <th>Observación</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bulkAttendanceBody">
+                                    <tr>
+                                        <td colspan="7" style="text-align: center;">Seleccione una sección y sesión para
+                                            cargar alumnos.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Calificaciones -->
+                    <div id="gradeSection"
+                        style="border: 1px solid #eee; padding: 1rem; border-radius: 8px; display: none;">
+                        <div style="display: flex; gap: 1rem; margin-bottom: 1.5rem; align-items: center;">
+                            <div style="flex: 1;">
+                            </div>
+                            <div>
+                                <button class="btn-secondary" onclick="markBulkGrades()"
+                                    style="background:var(--secondary); color:white;">Guardar Notas</button>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="data-table" style="font-size: 0.85rem;">
+                                <thead>
+                                    <tr>
+                                        <th>DNI/CE</th>
+                                        <th>Apellidos y Nombres</th>
+                                        <th style="text-align: center; width: 80px;" title="Examen Parcial (30%)">EP
+                                            (30%)</th>
+                                        <th style="text-align: center; width: 80px;" title="Evaluación Continua (40%)">
+                                            EvC (40%)</th>
+                                        <th style="text-align: center; width: 80px;" title="Examen Final (30%)">EF (30%)
+                                        </th>
+                                        <th style="text-align: center; width: 80px; background: #f8fafc;"
+                                            title="Promedio Final">PF</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bulkGradesBody">
+                                    <tr>
+                                        <td colspan="6" style="text-align: center;">Seleccione una sección para cargar
+                                            alumnos.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="js/custom-alert.js"></script>
+    <script src="js/docente.js"></script>
+</body>
+
+</html>

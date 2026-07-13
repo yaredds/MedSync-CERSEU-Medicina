@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Coordinador - MedSync</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-area" style="margin-bottom: 1rem;">
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;">
+                    <h1 class="brand-logo">
+                        <span class="brand-title" style="font-size: 1.8rem;">CERSEU</span>
+                        <span class="brand-subtitle" style="font-size: 0.85rem;">Medicina UNMSM</span>
+                    </h1>
+                </div>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="#" id="navCatalog" class="active"><i
+                            class="fa-solid fa-book"></i>&nbsp;&nbsp;&nbsp;Catálogo
+                        Académico</a>
+                </li>
+                <li><a href="#" id="navEnroll"><i class="fa-solid fa-users"></i>&nbsp;Matrículas</a></li>
+                <li><a href="#" id="navReports"><i class="fa-solid fa-chart-line"></i>&nbsp;&nbsp;Reportes</a>
+                </li>
+            </ul>
+
+            <a href="#" id="logoutBtn" class="logout-btn">
+                <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
+            </a>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <div>
+                    <h2>Catálogo de Cursos de Extensión</h2>
+                    <p class="subtitle">Gestión de secciones y vacantes</p>
+                </div>
+                <div class="user-profile" id="userProfileBtn" style="position: relative; cursor: pointer; display: flex; align-items: center; gap: 10px;">
+                    <span id="userNameDisplay">Coordinador</span>
+                    <div class="avatar" id="headerAvatar" style="pointer-events: none;">C</div>
+                    <i class="fa-solid fa-chevron-down" style="font-size: 0.8rem; color: #666; pointer-events: none;"></i>
+                    
+                    <!-- Dropdown -->
+                    <div id="profileDropdown" class="profile-dropdown" style="display: none;">
+                        <div class="profile-card-cover">
+                            <h1 class="brand-logo-small">
+                                <span class="brand-title">CERSEU</span>
+                                <span class="brand-subtitle" style="color: transparent; -webkit-text-stroke: 0.5px #6D2177;">MEDICINA</span>
+                            </h1>
+                        </div>
+                        <div class="profile-card-avatar-wrapper">
+                            <img src="" id="dropdownAvatarImg" alt="Avatar">
+                        </div>
+                        <div class="profile-card-info">
+                            <h3 id="dropdownName">Cargando...</h3>
+                            <p id="dropdownEmail">usuario@sistema.com</p>
+                        </div>
+                        <div class="profile-card-action">
+                            <a href="#" id="dropdownLogoutBtn">
+                                <i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar sesión
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Catálogo Académico -->
+            <div class="card" id="catalogCard">
+                <div class="card-header">
+                    <h3>Secciones Activas e Históricas</h3>
+                    <button class="btn-secondary" id="btnNewSection"><i class="fa-solid fa-plus"></i> Nueva
+                        Sección</button>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Curso</th>
+                                <th>Sección</th>
+                                <th>Docente</th>
+                                <th>Vacantes Libres</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sectionsTableBody">
+                            <tr>
+                                <td colspan="5" style="text-align: center;">Cargando catálogo...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Panel de Matrículas (Oculto por defecto) -->
+            <div class="card" id="enrollCard" style="display: none;">
+                <div class="card-header">
+                    <h3>Gestión de Matrículas</h3>
+                </div>
+
+                <div class="tabs" style="display: flex; gap: 2rem; border-bottom: 1px solid #E2E8F0; margin-bottom: 1.5rem; padding-left: 1rem;">
+                    <div class="tab active" onclick="switchEnrollTab('register')" id="tabRegister" style="padding-bottom: 0.5rem; cursor: pointer; color: var(--primary); border-bottom: 3px solid var(--primary); font-weight: 600; font-family: 'Poppins', sans-serif;">Registrar</div>
+                    <div class="tab" onclick="switchEnrollTab('enroll')" id="tabEnroll" style="padding-bottom: 0.5rem; cursor: pointer; color: var(--gray); border-bottom: 3px solid transparent; font-weight: 600; font-family: 'Poppins', sans-serif; transition: all 0.3s;">Matricular</div>
+                </div>
+
+                <div id="enrollTabContent">
+
+                    <!-- Formulario Nuevo Estudiante -->
+                    <div id="registerSection" style="background: #F8FAFC; padding: 1.5rem; border-radius: 8px; border: 1px solid #E2E8F0;">
+                        <h4 style="margin-bottom: 1rem; color: var(--primary);"><i class="fa-solid fa-user-plus"></i>
+                            Registrar Nuevo Estudiante</h4>
+                        <form id="newStudentForm">
+                            <input type="text" id="nsDni" class="form-control" placeholder="DNI (obligatorio)" required>
+                            <input type="text" id="nsFirstName" class="form-control" placeholder="Nombres" required>
+                            <input type="text" id="nsLastName" class="form-control" placeholder="Apellidos" required>
+                            <input type="email" id="nsEmail" class="form-control" placeholder="Correo Electrónico"
+                                required>
+                            <input type="text" id="nsPhone" class="form-control" placeholder="Teléfono">
+                            <input type="text" id="nsProfession" class="form-control" placeholder="Profesión" required>
+                            <input type="text" id="nsInstitution" class="form-control"
+                                placeholder="Institución de Origen" required>
+                            <select id="nsLevel" class="form-control" required>
+                                <option value="">Nivel Profesional...</option>
+                                <option value="STUDENT">Estudiante de Pregrado</option>
+                                <option value="GRADUATE">Egresado/Bachiller</option>
+                                <option value="SPECIALIST">Especialista</option>
+                            </select>
+
+                            <hr style="border:0; border-top:1px solid #ccc; margin: 1rem 0;">
+                            <p style="font-size: 0.8rem; color: #666; margin-bottom: 0.5rem;">Credenciales de Sistema
+                            </p>
+                            <input type="text" id="nsUsername" class="form-control"
+                                placeholder="Usuario para el sistema" required>
+                            <input type="password" id="nsPassword" class="form-control"
+                                placeholder="Contraseña temporal" required>
+
+                            <button type="submit" class="btn-secondary" style="width: 100%; margin-top: 1rem;">Registrar
+                                Estudiante</button>
+                        </form>
+                    </div>
+
+                    <!-- Formulario Matricular -->
+                    <div id="enrollSection" style="background: #F8FAFC; padding: 1.5rem; border-radius: 8px; border: 1px solid #E2E8F0; display: none;">
+                        <h4 style="margin-bottom: 1rem; color: var(--primary);"><i class="fa-solid fa-address-card"></i>
+                            Matricular en Sección</h4>
+                        <form id="enrollForm">
+                            <select id="enStudentId" class="form-control" required>
+                                <option value="">Cargando estudiantes...</option>
+                            </select>
+
+                            <select id="enSectionId" class="form-control" required>
+                                <option value="">Cargando secciones abiertas...</option>
+                            </select>
+
+                            <select id="enScholarship" class="form-control">
+                                <option value="">Sin beca (Pago Completo)</option>
+                                <option value="1">Beca Completa (100%)</option>
+                                <option value="2">Media Beca (50%)</option>
+                                <option value="3">Beca Social (75%)</option>
+                                <option value="4">Beca Excelencia (30%)</option>
+                            </select>
+
+                            <div
+                                style="margin-top: 1rem; padding: 1rem; background: #DBEAFE; color: #1E40AF; border-radius: 5px; font-size: 0.9rem;">
+                                <i class="fa-solid fa-circle-info"></i> Al matricular, el sistema verificará cruces de
+                                horarios y vacantes disponibles.
+                            </div>
+
+                            <button type="submit" class="btn-secondary"
+                                style="width: 100%; margin-top: 1.5rem; background: var(--primary); color: white;">Confirmar
+                                Matrícula</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Panel de Reportes (Oculto) -->
+            <div class="card" id="reportsCard" style="display: none;">
+                <div class="card-header">
+                    <h3>Reporte de Satisfacción Docente</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Docente</th>
+                                <th>Curso</th>
+                                <th>Sección</th>
+                                <th>Puntaje (1-5)</th>
+                                <th>Total Respuestas</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportsTableBody">
+                            <tr>
+                                <td colspan="5" style="text-align: center;">Cargando reportes...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Panel Nueva Sección (Oculto) -->
+            <div class="card" id="newSectionCard" style="display: none;">
+                <div class="card-header">
+                    <h3>Crear Nueva Sección</h3>
+                    <button class="btn-secondary" id="btnCancelSection">Cancelar</button>
+                </div>
+                <form id="newSectionForm" style="max-width: 500px; margin: 0 auto;">
+                    <select id="nsCourseId" class="form-control" required>
+                        <option value="">Seleccione Curso...</option>
+                    </select>
+                    <select id="nsTeacherId" class="form-control" required>
+                        <option value="">Seleccione Docente...</option>
+                    </select>
+                    <input type="text" id="nsSectionCode" class="form-control"
+                        placeholder="Código de Sección (Ej. ABC-2026)" required>
+
+                    <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+                        <div style="flex: 1;">
+                            <label style="font-size: 0.8rem; color: #666;">Fecha Inicio</label>
+                            <input type="date" id="nsStartDate" class="form-control" style="margin-bottom:0;" required>
+                        </div>
+                        <div style="flex: 1;">
+                            <label style="font-size: 0.8rem; color: #666;">Fecha Fin</label>
+                            <input type="date" id="nsEndDate" class="form-control" style="margin-bottom:0;" required>
+                        </div>
+                    </div>
+
+                    <input type="number" id="nsDuration" class="form-control" placeholder="Duración (Semanas)" min="1"
+                        required>
+                    <input type="url" id="nsLink" class="form-control" placeholder="Link de clase (Ej. Zoom)">
+
+                    <button type="submit" class="btn-secondary"
+                        style="width: 100%; background: var(--primary); color: white;">Guardar Sección</button>
+                </form>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="js/custom-alert.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>
