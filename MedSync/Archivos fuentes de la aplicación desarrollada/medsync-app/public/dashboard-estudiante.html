@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Estudiante - MedSync</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-area" style="margin-bottom: 1rem;">
+                <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;">
+                    <h1 class="brand-logo">
+                        <span class="brand-title" style="font-size: 1.8rem;">CERSEU</span>
+                        <span class="brand-subtitle" style="font-size: 0.85rem;">Medicina UNMSM</span>
+                    </h1>
+                </div>
+            </div>
+
+            <div class="nav-links">
+                <button type="button" class="tree-root" id="treeRootToggle">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span>Mis cursos</span>
+                    <i class="fa-solid fa-chevron-up tree-caret" id="treeCaret"></i>
+                </button>
+                <div class="course-tree" id="courseTree">
+                    <div class="course-tree-loading">Cargando cursos...</div>
+                </div>
+            </div>
+
+            <a href="#" id="logoutBtn" class="logout-btn">
+                <i class="fa-solid fa-right-from-bracket"></i> Cerrar Sesión
+            </a>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <div class="header-titles">
+                    <h2 id="pageTitle">Mis cursos</h2>
+                    <nav class="breadcrumb" id="breadcrumb" aria-label="Ruta de navegación"></nav>
+                </div>
+                <div class="user-profile" id="userProfileBtn" style="position: relative; cursor: pointer; display: flex; align-items: center; gap: 10px;">
+                    <span id="userNameDisplay">Estudiante</span>
+                    <div class="avatar" id="headerAvatar" style="pointer-events: none;">E</div>
+                    <i class="fa-solid fa-chevron-down" style="font-size: 0.8rem; color: #666; pointer-events: none;"></i>
+
+                    <!-- Dropdown -->
+                    <div id="profileDropdown" class="profile-dropdown" style="display: none;">
+                        <div class="profile-card-cover">
+                            <h1 class="brand-logo-small">
+                                <span class="brand-title">CERSEU</span>
+                                <span class="brand-subtitle" style="color: transparent; -webkit-text-stroke: 0.5px #6D2177;">MEDICINA</span>
+                            </h1>
+                            <svg class="role-illustration" viewBox="0 0 120 110" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                                <circle cx="60" cy="55" r="46" fill="#EFE3F2"/>
+                                <circle cx="60" cy="55" r="30" fill="#E3CDEA" opacity="0.7"/>
+                                <path d="M45 40 v14 a10 10 0 0 0 20 0 v-14" stroke="#8E5B9E" stroke-width="4" stroke-linecap="round" fill="none"/>
+                                <circle cx="70" cy="66" r="6" fill="#4B205A"/>
+                                <path d="M45 40 h-4 M65 40 h4" stroke="#8E5B9E" stroke-width="4" stroke-linecap="round"/>
+                            </svg>
+                        </div>
+                        <div class="profile-card-avatar-wrapper">
+                            <img src="" id="dropdownAvatarImg" alt="Avatar">
+                        </div>
+                        <div class="profile-card-info">
+                            <h3 id="dropdownName">Cargando...</h3>
+                            <p id="dropdownEmail">usuario@sistema.com</p>
+                        </div>
+                        <div class="profile-card-action">
+                            <a href="#" id="dropdownLogoutBtn">
+                                <i class="fa-solid fa-arrow-right-from-bracket"></i> Cerrar sesión
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Vista: catálogo de cursos -->
+            <section id="courseCatalogView" class="course-catalog-view">
+                <div class="course-catalog-grid" id="courseCatalogGrid">
+                    <div class="catalog-loading">Cargando tus cursos...</div>
+                </div>
+            </section>
+
+            <!-- Vista: detalle de curso -->
+            <section id="courseDetailView" class="course-detail-view" style="display: none;">
+
+                <div class="week-progress-wrap">
+                    <button type="button" class="back-btn" id="backToCourses" title="Volver a mis cursos">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </button>
+                    <div class="week-progress">
+                        <div class="week-progress-top">
+                            <span class="week-progress-label" id="weekProgressLabel">Actualmente estás en la semana - de -</span>
+                            <span class="week-progress-pct" id="weekProgressPct">0%</span>
+                        </div>
+                        <div class="week-progress-bar">
+                            <div class="week-progress-fill" id="weekProgressFill" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <nav class="course-tabs" id="courseTabs">
+                    <button type="button" class="course-tab" data-tab="notas">Notas</button>
+                    <button type="button" class="course-tab" data-tab="asistencia">Asistencia</button>
+                    <button type="button" class="course-tab" data-tab="horario">Horario</button>
+                    <button type="button" class="course-tab" data-tab="encuesta">Encuesta</button>
+                    <button type="button" class="course-tab" data-tab="informacion">Información</button>
+                </nav>
+
+                <!-- Panel: Notas -->
+                <div class="tab-panel" id="panel-notas">
+                    <div class="notas-grid">
+                        <!-- Chart -->
+                        <div class="panel-card notas-chart-card">
+                            <div class="notas-chart" id="notasChart">
+                                <div class="notas-chart-axis">
+                                    <span>20</span><span>15</span><span>10</span><span>05</span><span>00</span>
+                                </div>
+                                <div class="notas-chart-bars">
+                                    <div class="notas-bar-col">
+                                        <div class="notas-bar-track">
+                                            <div id="bar-ec" class="notas-bar notas-bar-ec"></div>
+                                        </div>
+                                        <span class="notas-bar-name">EC</span>
+                                        <span class="notas-bar-weight" id="weight-ec-tag">–%</span>
+                                    </div>
+                                    <div class="notas-bar-col">
+                                        <div class="notas-bar-track">
+                                            <div id="bar-ef" class="notas-bar notas-bar-ef"></div>
+                                        </div>
+                                        <span class="notas-bar-name">EF</span>
+                                        <span class="notas-bar-weight" id="weight-ef-tag">–%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Detail -->
+                        <div class="panel-card notas-detail-card">
+                            <h4 class="panel-card-title">Detalle de notas</h4>
+                            <div class="notas-detail-list">
+                                <div class="notas-detail-row">
+                                    <div class="notas-detail-label">
+                                        <span class="dot dot-ec"></span>
+                                        <span>Evaluación Continua (<span id="weight-ec-label">–</span>%)</span>
+                                    </div>
+                                    <div class="notas-detail-value" id="val-ec">-</div>
+                                    <div class="notas-detail-action"><a href="#">Solicitar revisión</a></div>
+                                </div>
+                                <div class="notas-detail-row">
+                                    <div class="notas-detail-label">
+                                        <span class="dot dot-ef"></span>
+                                        <span>Evaluación Final (<span id="weight-ef-label">–</span>%)</span>
+                                    </div>
+                                    <div class="notas-detail-value" id="val-ef">-</div>
+                                    <div class="notas-detail-action"><a href="#">Solicitar revisión</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-card notas-average-card">
+                        <span>Promedio final: <strong id="val-promedio">-</strong></span>
+                    </div>
+                </div>
+
+                <!-- Panel: Asistencia -->
+                <div class="tab-panel" id="panel-asistencia" style="display: none;">
+                    <div class="asistencia-grid">
+                        <div class="panel-card">
+                            <h4 class="panel-card-title">Asistencias</h4>
+                            <div id="asistenciasList" class="asistencia-list">
+                                <div class="empty-state">Cargando...</div>
+                            </div>
+                        </div>
+                        <div class="panel-card">
+                            <h4 class="panel-card-title">Faltas</h4>
+                            <div id="faltasList" class="asistencia-list">
+                                <div class="empty-state">Cargando...</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Panel: Horario -->
+                <div class="tab-panel" id="panel-horario" style="display: none;">
+                    <div class="panel-card calendar-card">
+                        <div class="calendar-grid" id="calendarGrid"></div>
+                    </div>
+                </div>
+
+                <!-- Panel: Encuesta -->
+                <div class="tab-panel" id="panel-encuesta" style="display: none;">
+                    <div class="panel-card survey-card" id="surveyCard">
+                        <!-- Contenido inyectado por JS según estado (disponible / completada / pendiente de finalizar curso) -->
+                    </div>
+                </div>
+
+                <!-- Panel: Información -->
+                <div class="tab-panel" id="panel-informacion" style="display: none;">
+                    <div class="info-grid">
+                        <div class="panel-card info-teacher-card">
+                            <img id="teacherAvatar" class="info-teacher-avatar" src="" alt="Docente">
+                            <div>
+                                <span class="info-label">Docente</span>
+                                <p class="info-teacher-name" id="teacherName">-</p>
+                            </div>
+                        </div>
+                        <div class="panel-card info-course-card">
+                            <div class="info-field info-field-wide">
+                                <span class="info-label">Horario</span>
+                                <span class="info-value" id="infoSchedule">-</span>
+                            </div>
+                            <div class="info-field">
+                                <span class="info-label">Plataforma</span>
+                                <span class="info-value" id="infoPlatform">-</span>
+                            </div>
+                            <div class="info-field">
+                                <span class="info-label">Sección</span>
+                                <span class="info-value" id="infoSection">-</span>
+                            </div>
+                            <div class="info-field">
+                                <span class="info-label">Duración</span>
+                                <span class="info-value" id="infoDuration">-</span>
+                            </div>
+                            <div class="info-field info-field-wide">
+                                <span class="info-label">Enlace de reunión</span>
+                                <span class="info-value" id="infoMeetingLink">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+        </main>
+    </div>
+
+    <script src="js/custom-alert.js"></script>
+    <script src="js/estudiante.js"></script>
+</body>
+
+</html>
